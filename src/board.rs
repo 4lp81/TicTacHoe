@@ -10,10 +10,8 @@ impl Board {
         Self { cells: [None; 9] }
     }
 
-    pub fn get(&self, index: usize) -> Option<Player> {
-        self.cells[index]
-    }
-
+    /// Setzt einen Spieler auf das Feld am gegebenen Index.
+    /// Gibt false zurück, falls das Feld bereits belegt ist.
     pub fn set(&mut self, index: usize, player: Player) -> bool {
         if self.cells[index].is_none() {
             self.cells[index] = Some(player);
@@ -35,6 +33,8 @@ impl Board {
             .collect()
     }
 
+    /// Prüft alle 8 Gewinnmuster (3 Reihen, 3 Spalten, 2 Diagonalen)
+    /// und gibt den Gewinner zurück, falls vorhanden.
     pub fn check_winner(&self) -> Option<Player> {
         const WIN_PATTERNS: [[usize; 3]; 8] = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // Reihen

@@ -1,3 +1,4 @@
+
 use crate::board::Board;
 use crate::player::Player;
 
@@ -10,6 +11,8 @@ impl AIPlayer {
         Self { player }
     }
 
+    /// Ermittelt den optimalen Zug für die KI, indem alle verfügbaren
+    /// Züge per Minimax mit Alpha-Beta-Pruning bewertet werden.
     pub fn get_best_move(&self, board: &Board) -> Option<usize> {
         let mut best_score = i32::MIN;
         let mut best_move = None;
@@ -29,6 +32,9 @@ impl AIPlayer {
         best_move
     }
 
+    /// Minimax-Algorithmus mit Alpha-Beta-Pruning.
+    /// Bewertet rekursiv alle möglichen Spielverläufe und gibt einen Score zurück:
+    /// positiv = KI gewinnt, negativ = Gegner gewinnt, 0 = Unentschieden.
     fn minimax(&self, board: &Board, depth: i32, mut alpha: i32, mut beta: i32, is_maximizing: bool) -> i32 {
         if let Some(winner) = board.check_winner() {
             return if winner == self.player {

@@ -1,11 +1,13 @@
 use gtk::prelude::*;
 use gtk::{glib, Application, ApplicationWindow, Button, Grid, Label, Box, Orientation};
-use std::cell::{Ref, RefCell};
+use std::cell::RefCell;
 use std::rc::Rc;
 
 use crate::game::Game;
 use crate::player::Player;
 
+/// Baut die gesamte GTK4-Oberfläche auf: Spielfeld, Scoreboard,
+/// Steuerungsbuttons und verknüpft alle Event-Handler.
 pub fn build_ui(app: &Application) {
     let game = Rc::new(RefCell::new(Game::new(true)));
 
@@ -21,12 +23,11 @@ pub fn build_ui(app: &Application) {
     let scoreboard: Rc<RefCell<(u32,u32,u32)>> = Rc::new(RefCell::new((0, 0,0)));
     let x_score_label = Label::new(Some("X: 0"));
     x_score_label.add_css_class("score-label");
-    let o_score_label = Label::new(Some(("O: 0")));
+    let o_score_label = Label::new(Some("O: 0"));
     o_score_label.add_css_class("score-label");
     let draw_score_label = Label::new(Some("Unentschieden: 0"));
     draw_score_label.add_css_class("score-label");
 
-    //ToDo: Implement scoreboard box..
     let score_box = Box::new(Orientation::Horizontal, 10);
     score_box.append(&x_score_label);
     score_box.append(&o_score_label);
@@ -153,6 +154,21 @@ pub fn build_ui(app: &Application) {
         }
     });
 
+    let score_reset_button = Button::with_label("Scoreboard Reset");
+    score_reset_button.add_css_class("reset-button");
+
+    let scoreboard_for_score_reset = Rc::clone(&scoreboard);
+    let x_score_label_for_reset = x_score_label.clone();
+    let o_score_label_for_reset = o_score_label.clone();
+    let draw_score_label_for_reset = draw_score_label.clone();
+
+    score_reset_button.connect_clicked(move |_| {
+        *scoreboard_for_score_reset.borrow_mut() = (0, 0, 0);
+        x_score_label_for_reset.set_label("X: 0");
+        o_score_label_for_reset.set_label("O: 0");
+        draw_score_label_for_reset.set_label("Unentschieden: 0");
+    });
+
     let game_for_mode = Rc::clone(&game);
     let buttons_for_mode = Rc::clone(&buttons);
     let status_for_mode = status_label.clone();
@@ -183,6 +199,7 @@ pub fn build_ui(app: &Application) {
     main_box.append(&score_box);
     main_box.append(&grid);
     main_box.append(&reset_button);
+    main_box.append(&score_reset_button);
 
     let window = ApplicationWindow::builder()
         .application(app)
@@ -235,6 +252,8 @@ pub fn build_ui(app: &Application) {
     window.present();
 }
 
+/// Aktualisiert das Status-Label basierend auf dem aktuellen Spielzustand
+/// (Gewinner, Unentschieden oder nächster Spieler).
 fn update_status(label: &Label, game: &Game) {
     if let Some(winner) = game.get_winner() {
         let msg = if game.is_vs_ai() && winner == Player::O {

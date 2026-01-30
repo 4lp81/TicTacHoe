@@ -26,6 +26,8 @@ impl Game {
         }
     }
 
+    /// Führt einen Spielerzug auf dem gegebenen Feldindex aus.
+    /// Wechselt den aktiven Spieler oder beendet das Spiel bei Gewinn/Unentschieden.
     pub fn make_move(&mut self, index: usize) -> bool {
         if self.game_over || !self.board.set(index, self.current_player) {
             return false;
@@ -40,6 +42,8 @@ impl Game {
         true
     }
 
+    /// Berechnet und führt den besten KI-Zug via Minimax aus.
+    /// Gibt den gewählten Feldindex zurück oder None, falls kein Zug möglich ist.
     pub fn make_ai_move(&mut self) -> Option<usize> {
         if self.game_over || !self.vs_ai || self.current_player == self.human_player {
             return None;
@@ -72,10 +76,6 @@ impl Game {
 
     pub fn is_draw(&self) -> bool {
         self.board.is_full() && self.board.check_winner().is_none()
-    }
-
-    pub fn is_game_over(&self) -> bool {
-        self.game_over
     }
 
     pub fn current_player(&self) -> Player {
