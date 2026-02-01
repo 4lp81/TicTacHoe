@@ -1,3 +1,9 @@
+/**
+ * Author: 
+ * Date: 2026-02-01
+ * Description: Hauptmodul für das Tic-Tac-Toe-Spiel.
+*/
+
 mod player;
 mod board;
 mod ai;

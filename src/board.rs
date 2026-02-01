@@ -1,3 +1,9 @@
+/**
+ * Author: 
+ * Date: 2026-02-01
+ * Description: Implementierung des Spielbretts für das Tic-Tac-Toe-Spiel.
+*/
+
 use crate::player::Player;
 
 #[derive(Clone)]

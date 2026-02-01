@@ -1,3 +1,8 @@
+/**
+ * Author: Alp Arslan
+ * Date: 2026-01-28
+ * Description: Implementierung der KI-Logik für das Tic-Tac-Toe-Spiel.
+*/
 
 use crate::board::Board;
 use crate::player::Player;

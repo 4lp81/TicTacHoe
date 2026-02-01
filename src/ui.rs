@@ -1,3 +1,9 @@
+/**
+ * Author: 
+ * Date: 2026-02-01
+ * Description: Aufbau der Benutzeroberfläche für das Tic-Tac-Toe-Spiel mit GTK4.
+*/
+
 use gtk::prelude::*;
 use gtk::{glib, Application, ApplicationWindow, Button, Grid, Label, Box, Orientation};
 use std::cell::RefCell;

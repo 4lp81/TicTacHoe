@@ -1,3 +1,9 @@
+/**
+ * Author: 
+ * Date: 2026-02-01
+ * Description: Implementierung der Spiel-Logik für das Tic-Tac-Toe-Spiel.
+*/
+
 use crate::ai::AIPlayer;
 use crate::board::Board;
 use crate::player::Player;
